@@ -1,0 +1,59 @@
+Description: replace ava by tape
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2021-01-03
+
+--- a/test.js
++++ b/test.js
+@@ -1,11 +1,12 @@
+-import test from 'ava';
+-import pFinally from '.';
++const test = require('tape');
++const pFinally = require('.');
+ 
+ const fixture = Symbol('fixture');
+ const fixtureError = new Error('error');
+ 
+ test('does nothing when nothing is passed', async t => {
+ 	t.is(await pFinally(Promise.resolve(fixture)), fixture);
++	t.end();
+ });
+ 
+ test('callback is called when promise is fulfilled', async t => {
+@@ -17,6 +18,7 @@
+ 
+ 	t.is(value, fixture);
+ 	t.true(isCalled);
++	t.end();
+ });
+ 
+ test('callback is called when promise is rejected', async t => {
+@@ -29,6 +31,7 @@
+ 	});
+ 
+ 	t.true(isCalled);
++	t.end();
+ });
+ 
+ test('returning a rejected promise in the callback rejects the promise', async t => {
+@@ -37,12 +40,14 @@
+ 	}, error => {
+ 		t.is(error, fixtureError);
+ 	});
++	t.end();
+ });
+ 
+ test('returning a rejected promise in the callback for an already rejected promise changes the rejection reason', async t => {
+ 	await pFinally(Promise.reject(new Error('original error')), () => Promise.reject(fixtureError)).catch(error => {
+ 		t.is(error, fixtureError);
+ 	});
++	t.end();
+ });
+ 
+ test('the onFinally callback is only called once no matter what', async t => {
+@@ -55,4 +60,5 @@
+ 			throw new Error(); // eslint-disable-line unicorn/error-message
+ 		}
+ 	).catch(() => {});
++	t.end();
+ });
