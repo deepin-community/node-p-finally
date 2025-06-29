@@ -1,3 +1,12 @@
+node-p-finally (2.0.1-2) unstable; urgency=medium
+
+  * Team upload
+  * Fix GitHub tags regex
+  * Update standards version to 4.6.0, no changes needed.
+  * Fix filenamemangle
+
+ -- Yadd <yadd@debian.org>  Fri, 24 Dec 2021 17:26:43 +0100
+
 node-p-finally (2.0.1-1) unstable; urgency=medium
 
   * Team upload
